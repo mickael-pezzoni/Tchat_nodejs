@@ -1,0 +1,9 @@
+#formMsg{
+    position: fixed;
+    bottom: 2%;
+    left: 2%;
+    width: 80%;
+}
+#message{
+    width: 50%;
+}

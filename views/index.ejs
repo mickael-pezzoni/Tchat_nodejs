@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" const="text/html;charset=UTF-8" />
+    <link href="http://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="style.css" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <title>Simple Chat App</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>Super Chat</h1>
+    </header>
+    <section>
+        <input class="pseudo" id="username" type="text" />
+        <button class="pseudo" id="send_username" type="button">Change username</button>
+    </section>
+
+    <section id="chatroom">
+    </section>
+    <div id="formMsg">
+      <input class="msg" id="message" class="vertical-align" type="text" />
+      <button class="msg" id="send_message" class="vertical-align" type="button">Send</button>
+    </div>
+
+    <script src="chat.js"></script>
+  </body>
+</html>
