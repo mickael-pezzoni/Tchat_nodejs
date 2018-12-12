@@ -1,9 +1,41 @@
 #formMsg{
+    text-align: center;
     position: fixed;
     bottom: 2%;
-    left: 2%;
+    width: 90%;
+}
+body{
+    background-color: gray
+}
+#formMsg input[type=text]{
     width: 80%;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+button{
+    width: 10%;
+    padding: 5px;
+    border-radius: 10px;
+}
+#chatroom{
+    height: 70vh;
+    width: 60%;
+    background-color: black;
+    color: white;
+    overflow: auto;
 }
 #message{
     width: 50%;
+}
+#sectionFormPseudo{
+    text-align: center;
+}
+#group{
+    display: flex;
+}
+#membresConnecte{
+    background-color: green;
+    width: 10%;
+    margin-right: 10px;
 }

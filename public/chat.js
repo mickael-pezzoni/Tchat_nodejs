@@ -17,13 +17,27 @@
 	desactiveForm(eltHtml.formMsg,!auth);
 	socket.on("new_message", (data) => {
 		message.value='';
-		chatroom.innerHTML+=("<p class='message'>" + data.username + ": " + data.message + "</p>")
+		chatroom.innerHTML+=("<span class='message'>" + data.username + ": " + data.message + "</span><br/>")
 	});
-
+	socket.on("newConnect",(data)=>{
+		console.log(data);
+		chatroom.innerHTML+=("<span class='message'>" + data.username + ": viens de se connecter </span><br/>")
+	})
 	//Emit a username
 	eltHtml.send_username.onclick=()=>{
 		socket.emit('change_username', {username : eltHtml.getPseudo()})
 		desactiveForm(eltHtml.formMsg,auth);
+	};
+	eltHtml.message.onkeypress=(event)=>{
+		if(event.keyCode == 13){
+			socket.emit('new_message', {message : eltHtml.getMsg()});
+		}
+	}
+	eltHtml.username.onkeypress=(event)=>{
+		if(event.keyCode == 13){
+			socket.emit('change_username', {username : eltHtml.getPseudo()})
+			desactiveForm(eltHtml.formMsg,auth);
+		}
 	};
 
 

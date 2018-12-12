@@ -34,13 +34,15 @@ io.on('connection', (socket) => {
     socket.on('change_username', (data) => {
         console.log(data)
         socket.username = data.username
+        socket.broadcast.emit("newConnect",{ username : data.username } );
     })
 
     //listen on new_message
     socket.on('new_message', (data) => {
         console.log(socket.username);
         //broadcast the new message
-        io.sockets.emit('new_message', {message : data.message, username : socket.username});
+        socket.emit('new_message', {message : data.message, username : socket.username});
+        socket.broadcast.emit('new_message', {message : data.message, username : socket.username});
     })
 
     //listen on typing
