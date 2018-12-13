@@ -20,7 +20,7 @@ button{
 }
 #chatroom{
     height: 70vh;
-    width: 60%;
+    min-width: 82%;
     background-color: black;
     color: white;
     overflow: auto;
@@ -36,6 +36,6 @@ button{
 }
 #membresConnecte{
     background-color: green;
-    width: 10%;
+    width: 20%;
     margin-right: 10px;
 }

@@ -2,51 +2,68 @@ const express = require('express')
 const app = express()
 
 
-//set the template engine ejs
 app.set('view engine', 'ejs')
 
-//middlewares
 app.use(express.static('public'))
 
 
-//routes
 app.get('/', (req, res) => {
 	res.render('index')
 })
 
-//Listen on port 3000
 server = app.listen(3000)
 
 
 
-//socket.io instantiation
 const io = require("socket.io")(server)
 
+var membresConnecte = new Map();
+var arrayMembresConnecte = new Array();
 
-//listen on every connection
 io.on('connection', (socket) => {
 	console.log('New user connected')
 
-	//default username
 	socket.username = "Anonymous"
 
-    //listen on change_username
     socket.on('change_username', (data) => {
-        console.log(data)
-        socket.username = data.username
-        socket.broadcast.emit("newConnect",{ username : data.username } );
+        var lastPseudo = socket.username;
+        socket.username = data.username;
+
+        if(membresConnecte.get(socket.id)){ 
+            console.log(true); 
+            let verifIndex =  arrayMembresConnecte.indexOf(membresConnecte.get(socket.id));
+            arrayMembresConnecte[verifIndex] = data.username;
+            socket.emit("changeUsername",{lastPseudo : lastPseudo, newPseudo :data.username });
+            socket.broadcast.emit("changeUsername",{lastPseudo : lastPseudo, newPseudo :data.username });
+        }
+        else{
+            socket.emit("newConnect",{ username : data.username });
+            socket.broadcast.emit("newConnect",{ username : data.username });
+            arrayMembresConnecte.push(data.username)
+        }
+        console.log(arrayMembresConnecte);
+        membresConnecte.set(socket.id,data.username);
+        console.log(membresConnecte);
+        socket.broadcast.emit("refreshMembres",{membres : arrayMembresConnecte});
+        socket.emit("refreshMembres",{membres : arrayMembresConnecte});
     })
 
-    //listen on new_message
     socket.on('new_message', (data) => {
         console.log(socket.username);
-        //broadcast the new message
         socket.emit('new_message', {message : data.message, username : socket.username});
         socket.broadcast.emit('new_message', {message : data.message, username : socket.username});
     })
 
-    //listen on typing
     socket.on('typing', (data) => {
     	socket.broadcast.emit('typing', {username : socket.username})
+    })
+    socket.on('disconnect',()=>{
+        console.log(membresConnecte.get(socket.id));
+        membresConnecte.delete(socket.id);
+        let verifIndex =  arrayMembresConnecte.indexOf(membresConnecte.get(socket.id));
+        arrayMembresConnecte.splice(verifIndex,1);
+        console.log(arrayMembresConnecte);
+        socket.broadcast.emit("refreshMembres",{membres : arrayMembresConnecte})
+        socket.emit("refreshMembres",{membres : arrayMembresConnecte});
     })
 })

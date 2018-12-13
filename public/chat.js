@@ -1,7 +1,7 @@
 
 (function(){
    	//make connection
-	var socket = io.connect('http://localhost:3000')
+	var socket = io.connect('http://192.168.43.117:3000')
 
 	var auth = false;
 	eltHtml = new elements();
@@ -17,11 +17,23 @@
 	desactiveForm(eltHtml.formMsg,!auth);
 	socket.on("new_message", (data) => {
 		message.value='';
-		chatroom.innerHTML+=("<span class='message'>" + data.username + ": " + data.message + "</span><br/>")
+		eltHtml.chatroom.innerHTML+=("<span class='message'>" + data.username + ": " + data.message + "</span><br/>")
 	});
 	socket.on("newConnect",(data)=>{
 		console.log(data);
-		chatroom.innerHTML+=("<span class='message'>" + data.username + ": viens de se connecter </span><br/>")
+		eltHtml.chatroom.innerHTML+=("<span class='message'>" + data.username + " vient de se connecter </span><br/>")
+	})
+
+	socket.on("refreshMembres",(data)=>{
+		eltHtml.mbConnecter.innerHTML='';
+		console.log(data);
+		data.membres.forEach(elt=>{
+			eltHtml.mbConnecter.innerHTML+=elt+'<br/>';
+		})
+	})
+	socket.on("changeUsername",(data)=>{
+		console.log(data);
+		eltHtml.chatroom.innerHTML+=("<span class='changePsuedo'>"+data.lastPseudo+" s'appelle désormais "+data.newPseudo+"</span><br/>")
 	})
 	//Emit a username
 	eltHtml.send_username.onclick=()=>{
@@ -58,6 +70,7 @@ function elements(){
 	this.chatroom = document.getElementById("chatroom");
 	this.formPseudo = document.getElementsByClassName("pseudo");
 	this.formMsg = document.getElementsByClassName("msg");
+	this.mbConnecter = document.getElementById("membresConnecte");
 
 	this.getMsg = function (){
 		return this.message.value;
