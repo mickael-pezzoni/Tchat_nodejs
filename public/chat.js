@@ -1,7 +1,7 @@
 
 (function(){
    	//make connection
-	var socket = io.connect('http://192.168.43.117:3000')
+	var socket = io.connect('http://localhost:3000')
 
 	var auth = false;
 	eltHtml = new elements();

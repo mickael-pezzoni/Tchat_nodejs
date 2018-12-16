@@ -1,3 +1,12 @@
+
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+body{
+    color: white;
+    font-family: 'Lobster', cursive;
+    background: url("./fond.jpg") no-repeat fixed center;
+    background-size: cover;
+}
+
 #formMsg{
     text-align: center;
     position: fixed;
@@ -20,22 +29,39 @@ button{
 }
 #chatroom{
     height: 70vh;
-    min-width: 82%;
-    background-color: black;
+    min-width: 88%;
+    background-color:rgba(143, 149, 149, 0.7);
     color: white;
     overflow: auto;
+    border-radius: 15px;
+    padding: 5px;
 }
 #message{
     width: 50%;
 }
 #sectionFormPseudo{
     text-align: center;
+    margin-bottom: 8px;
 }
 #group{
     display: flex;
 }
 #membresConnecte{
-    background-color: green;
-    width: 20%;
+    /*background-color: green;*/
+    border:2px solid orange;
+    border-radius: 10px;
+    width: 13%;
     margin-right: 10px;
+    overflow: auto;
+    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+    
+}
+h4{
+    margin: 0px;
+}
+#username{
+    padding: 5px;
+    border-radius: 10px;
 }
